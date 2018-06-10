@@ -1,5 +1,8 @@
 defmodule FilixWeb do
   @moduledoc """
+  Handles all Web concerns for the Filix applications.
+  Primarily use case is to transform various web requests into digestable commands used by Filix
+
   The entrypoint for defining your web interface, such
   as controllers, views, channels and so on.
 
