@@ -1,6 +1,6 @@
-defmodule FilixDb do
+defmodule Filix do
   @moduledoc """
-  Documentation for FilixDb.
+  Documentation for Filix.
   """
 
   @doc """
@@ -8,7 +8,7 @@ defmodule FilixDb do
 
   ## Examples
 
-      iex> FilixDb.hello
+      iex> Filix.hello
       :world
 
   """
