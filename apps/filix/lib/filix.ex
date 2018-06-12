@@ -1,6 +1,6 @@
 defmodule Filix do
   @moduledoc """
-  Module responsible for the core behavior/api/services of the application.
+  Client facing API for Filix.
 
   Consumed by FilixWeb in varying capacities.
 
@@ -11,4 +11,22 @@ defmodule Filix do
   """
 
   # Use the pre_signed_url as the identifier of active processes
+  alias Filix.Uploading.UploadService
+
+  def request_upload(file_params) do
+    # UploadService.start_link()
+    # {:ok, storage_resources_prepared}
+  end
+
+  def initiate_upload() do
+  end
+
+  def cancel_upload() do
+  end
+
+  def update_upload_progress() do
+  end
+
+  def reinitiate_upload() do
+  end
 end
