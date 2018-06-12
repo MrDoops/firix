@@ -8,7 +8,7 @@ defmodule FilixPersistence.File do
     field :name, :string
     field :url, :string
     field :size, :integer
-    file :type, :string
+    field :type, :string
 
     many_to_many :tags, Tag, join_through: FileTag
 

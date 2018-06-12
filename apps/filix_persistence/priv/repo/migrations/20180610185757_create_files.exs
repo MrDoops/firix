@@ -5,8 +5,8 @@ defmodule FilixPersistence.Repo.Migrations.CreateFiles do
     create table(:files) do
       add :name, :string
       add :url, :string
-      add :file_type, :string
-      add :file_size, :integer
+      add :type, :string
+      add :size, :integer
 
       timestamps()
     end
