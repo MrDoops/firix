@@ -57,6 +57,11 @@ defmodule Filix.Uploading.UploadService do
   # Server callbacks
 
   def handle_event({:call, from}, :upload_requested, data) do
+    # S3.setup_storage_resources()
+    {:next_state}
+  end
 
+  def handle_event(event_type, event_content, state, data) do
+    super(event_type, event_content, state, data)
   end
 end

@@ -31,6 +31,8 @@ defmodule Filix.MixProject do
       {:ex_aws_s3, "~> 2.0"},
       {:uuid, "~> 1.1"},
       {:gen_state_machine, "~> 2.0"},
+      {:hackney, "~> 1.9"},
+      {:sweet_xml, "~> 0.6"},
     ]
   end
 end
