@@ -5,6 +5,8 @@ defmodule Filix.Uploading.UploadServiceSupervisor do
 
   use DynamicSupervisor
 
+  alias Filix.Uploading.UploadService
+
   def start_link(arg) do
     DynamicSupervisor.start_link(__MODULE__, arg, name: __MODULE__)
   end
@@ -12,5 +14,14 @@ defmodule Filix.Uploading.UploadServiceSupervisor do
   @impl true
   def init(_arg) do
     DynamicSupervisor.init(strategy: :one_for_one)
+  end
+
+  def request_upload(file_params) do
+    child_spec = {UploadService, file_params}
+    DynamicSupervisor.start_child(__MODULE__, child_spec)
+  end
+
+  def cancel_upload() do
+
   end
 end

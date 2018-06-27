@@ -33,6 +33,7 @@ defmodule Filix.MixProject do
       {:gen_state_machine, "~> 2.0"},
       {:hackney, "~> 1.9"},
       {:sweet_xml, "~> 0.6"},
+      {:typed_struct, "~> 0.1.1"},
     ]
   end
 end

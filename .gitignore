@@ -22,3 +22,5 @@ erl_crash.dump
 .elixir_ls
 
 .env
+
+firix.code-workspace
