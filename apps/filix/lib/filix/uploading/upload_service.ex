@@ -14,6 +14,7 @@ defmodule Filix.Uploading.UploadService do
     :update_upload_progress
     :reinitiate_upload
     :cancel_upload
+    :upload_status
 
   """
   use GenStateMachine
@@ -39,7 +40,7 @@ defmodule Filix.Uploading.UploadService do
     GenStateMachine.call(pid, :cancel_upload)
   end
 
-  def update_upload_progress(pid, progress) do
+  def update_upload_progress(pid, progress) when is_integer(progress) do
     GenStateMachine.cast(pid, :update_upload_progress, progress)
   end
 
@@ -62,19 +63,24 @@ defmodule Filix.Uploading.UploadService do
     {:next_state, :storage_resources_prepared, [{:reply, from, %{file_params: file_params}}]}
   end
 
-  def handle_event(:cast, :update_upload_progress, :storage_resources_prepared, progress) when is_integer(progress) do
-    case progress do
-      100 ->
-        {:next_state, :upload_completed, }
-      _   ->
-        {:next_state, :uploading, }
-    end
+  def handle_event({})
 
-    # {:next_state, :uploading, } # How to handle receiving an integer from the command?
+  def handle_event(:cast, :update_upload_progress, :storage_resources_prepared, progress) do
+    {:normal, data} = upload_status(self())
+      case progress do
+        x when x >= 100 ->
+          {:next_state, :upload_completed, Map.put(data, :progress, progress)} # how to cover case where integer sent is > 100?
+        x when x > 0 && x < 100 ->
+          {:next_state, :uploading, Map.put(data, :progress, progress)}
+      end
+  end
+
+  def handle_event(:cast, :cancel_upload, state, data) do
+
   end
 
   def handle_event({:call, from}, :status, state, data) do
-    {:next_state, state, data, [{:reply, from, data}]}
+    {:next_state, state, data, [{:reply, from, {state, data}]}
   end
 
   def handle_event(event_type, event_content, state, data) do

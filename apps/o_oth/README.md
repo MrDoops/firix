@@ -1,6 +1,6 @@
 # OOth
 
-**TODO: Add description**
+Intention is to make this a flexible authentication solution.
 
 ## Installation
 
