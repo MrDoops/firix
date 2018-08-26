@@ -16,4 +16,8 @@ defmodule Filix do
   def request_upload(file_params) do
     UploadServiceSupervisor.request_upload(file_params)
   end
+
+  def show_uploads() do
+    # Stream File Structs of files being uploaded
+  end
 end

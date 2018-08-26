@@ -23,9 +23,8 @@ defmodule Filix.Uploading.Uploader do
   use GenServer
 
   alias Filix.File
-  alias Filix.StorageServices.AwsS3
+  alias Filix.Storage.AwsS3
   alias Firix.FilixPersistence
-
   import Filix.Uploading.UploadRules
 
   # Client
@@ -42,11 +41,7 @@ defmodule Filix.Uploading.Uploader do
   end
 
   def update_progress(file_id, progress) when is_integer(progress) do
-    GenServer.cast(file_id, :update_upload_progress, progress)
-  end
-
-  def reinitiate_upload(file_id) do
-    GenServer.cast(file_id, :reinitiate_upload)
+    GenServer.cast(file_id, {:update_upload_progress, progress})
   end
 
   def status(file_id) do
@@ -55,37 +50,25 @@ defmodule Filix.Uploading.Uploader do
 
   # Server callbacks
 
-  def handle_call(:request_upload, _from, file) do
+  def handle_call(:request_upload, _from, %File{} = file) do
     file
     |> assign_id()
-    |> StorageProvider.setup_storage_resources()
+    |> AwsS3.setup_storage_resources()
     |> check_status(:request_upload)
+
+    {:ok, file}
   end
 
-  def handle_cast(:update_upload_progress, %File{status: status} = file) do
-    {:normal, data} = status(self())
-
-    cond do
-      (progress >= 100) ->
-        {:next_state, :complete, Map.put(data, :progress, progress)}
-      (progress > 0 && progress < 100) ->
-        {:next_state, :uploading, Map.put(data, :progress, progress)}
-    end
+  def handle_cast({:update_upload_progress, progress}, %File{} = file) do
+    %File{ file | upload_progress: progress}
+    |> check_status(:update_upload_progress)
   end
 
-  def handle_event(:cast, :reinitiate_upload, state, data) do
-    #
-  end
-
-  def handle_event(:cast, :cancel_upload, state, data) do
+  def handle_cast(:cancel_upload, _from, file) do
     # destroy storage resources
+    # log cancellation
+    # exit process
   end
-
-  def handle_event({:call, from}, :status, state, data) do
-    {:next_state, state, data, [{:reply, from, {state, data} }]}
-  end
-
-
 
   defp assign_id(%File{} = file), do: %File{ file | id: UUID.uuid4()}
 end

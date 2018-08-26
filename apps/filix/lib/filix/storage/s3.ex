@@ -1,4 +1,4 @@
-defmodule Filix.StorageServices.AwsS3 do
+defmodule Filix.Storage.S3 do
   @moduledoc """
     Holds any methods that have to do with Aws S3
 
@@ -36,14 +36,13 @@ defmodule Filix.StorageServices.AwsS3 do
     "https://s3.amazonaws.com/#{@host_name}/#{@root_bucket}/#{file_params.file_id}.#{file_params.file_type}"
   end
 
-  defp root_bucket_existence() do
-    {:ok, response} = S3.list_buckets() |> ExAws.request()
+  # defp root_bucket_existence() do
+  #   {:ok, response} = S3.list_buckets() |> ExAws.request()
 
-    bucket_existence =
-      response
-      |> Map.get(:body)
-      |> Map.get(:buckets)
-      |> Enum.any?(@root_bucket)
-  end
+  #     response
+  #     |> Map.get(:body)
+  #     |> Map.get(:buckets)
+  #     |> Enum.any?(@root_bucket)
+  # end
 
 end
