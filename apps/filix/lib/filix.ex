@@ -11,27 +11,9 @@ defmodule Filix do
   """
 
   # Use the pre_signed_url as the identifier of active processes
-  alias Filix.Uploading.{UploadService, UploadServiceSupervisor}
+  alias Filix.Uploading.UploadServiceSupervisor
 
   def request_upload(file_params) do
-    {:ok, file_params} = UploadServiceSupervisor.request_upload(file_params)
-  end
-
-  def initiate_upload(upload_pid) do
-    UploadServiceSupervisor.call(upload_pid)
-  end
-
-  def cancel_upload() do
-  end
-
-  def update_upload_progress(upload_pid, progress) do
-    UploadServiceSupervisor.update_upload_progress(upload_pid, progress)
-  end
-
-  def reinitiate_upload() do
-  end
-
-  def get_upload_status(upload_pid) do
-
+    UploadServiceSupervisor.request_upload(file_params)
   end
 end

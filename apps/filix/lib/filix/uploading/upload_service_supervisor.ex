@@ -21,7 +21,10 @@ defmodule Filix.Uploading.UploadServiceSupervisor do
     DynamicSupervisor.start_child(__MODULE__, child_spec)
   end
 
-  def cancel_upload() do
+  def cancel_upload(file_id) do
 
   end
+
+  def status(file_id), do:
+    UploadService
 end

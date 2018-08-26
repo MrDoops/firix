@@ -7,7 +7,7 @@ defmodule Filix.StorageServices.AwsS3 do
       - fetch pre-signed urls
       - delete objects
 
-    The goal is to turn this into an implemented behavior for one or many adapters.
+    The goal is to turn this into an implemented behavior for one or many adapters/strategies.
   """
   alias ExAws.S3
   alias ExAws
@@ -31,10 +31,6 @@ defmodule Filix.StorageServices.AwsS3 do
 
     presigned_url
   end
-
-  # def destroy_storage_resources(%{file_id: file_id, url: url}) do
-
-  # end
 
   defp get_file_url(file_params) do
     "https://s3.amazonaws.com/#{@host_name}/#{@root_bucket}/#{file_params.file_id}.#{file_params.file_type}"
